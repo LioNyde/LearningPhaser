@@ -18,10 +18,17 @@ var GameState = {
   },
   create: function(){
     this.background = this.add.image(0, 0, "background")
-    this.background.setOrigin(.001, .001)
+    this.background.setOrigin(0, 0)
 
-    this.chicken = this.add.sprite(game.scale.height/2, game.scale.height/2, 'chicken')
-    this.chicken.setOrigin(1, 1)
+    //var g2 = this.add.grid(0, 0, 640*2, 360*2, 16, 16, 0x00b9f2, game.scale.width/2, game.scale.height/2);
+    //anchor
+    this.chicken = this.add.sprite(game.scale.width/2, game.scale.height/2, 'chicken')
+    //scaling
+    this.horse = this.add.sprite(100, 100, 'horse')
+    this.horse.setScale(.5)
+    //flipping
+    this.pig = this.add.sprite(500, 300, 'pig')
+    this.pig.setScale(-1, 1)
   },
   update: function(){
     
