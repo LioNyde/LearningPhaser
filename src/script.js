@@ -28,39 +28,30 @@ var GameState = {
     ];
 
     this.animals = this.add.group()
+    var animal;
     
-    //custom classes or manual
+    animalData.forEach(object => {
+      animal = this.animals.create(game.scale.width/2, game.scale.height/2, object.key);
+      animal.customParams = {text: object.text}
+      
+      animal.setInteractive({useHandCursor: true, pixelPerfect: true});
+      animal.on('pointerdown', GameState.animateAnimal, this)
+    });
 
-    // https://labs.phaser.io/edit.html?src=src/game%20objects/sprites/custom%20sprite%20class%20ES6.js&v=3.55.2
+    
     // left arrow
     this.leftArrow = this.add.sprite(60, game.scale.height/2, 'arrow');
     this.leftArrow.setScale(-1, 1)
     this.leftArrow.customParams = {direction: -1};
-
-    // change cursors
-    this.leftArrow.on('pointerover', function() {
-      this.scene.input.setDefaultCursor('pointer'); });
-    
-    this.leftArrow.on('pointerout', function() {
-      this.scene.input.setDefaultCursor('default'); });
-    
     // left arrow user-input
-    this.leftArrow.setInteractive({pixelPerfect: true});
+    this.leftArrow.setInteractive({pixelPerfect: true, useHandCursor: true});
     this.leftArrow.on('pointerdown', GameState.switchAnimal, this);
     
     //right arrow
     this.rightArrow = this.add.sprite(580, game.scale.height/2, 'arrow');
     this.rightArrow.customParams = {direction: 1};
-
-    // change cursors on right arrow
-    this.rightArrow.on('pointerover', function() {
-      this.scene.input.setDefaultCursor('pointer'); });
-    
-    this.rightArrow.on('pointerout', function() {
-      this.scene.input.setDefaultCursor('default'); });
-
     //right arrow user-input
-    this.rightArrow.setInteractive({pixelPerfect: true});
+    this.rightArrow.setInteractive({pixelPerfect: true, useHandCursor: true});
     this.rightArrow.on('pointerdown', GameState.switchAnimal, this)
   },
 
