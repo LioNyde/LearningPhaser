@@ -29,7 +29,7 @@ class Loader extends Phaser.Scene{
     this.maintext = this.add.text(game.scale.width/2, (game.scale.height/2), 'Loading Assets...').setScale(2).setOrigin(0.5, 0.5)
     this.timertext.setColor('black')
     this.maintext.setColor('black')
-    
+    this.scene.start('GameScene')
   }
 
   update() {
@@ -40,6 +40,6 @@ class Loader extends Phaser.Scene{
   onEvent() {
     // called when the timer completes
     this.maintext.setText('Loading Complete...')
-    this.scene.start('GameScene')
+    
   }
 }
