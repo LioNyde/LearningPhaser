@@ -25,7 +25,7 @@ class GameScene extends Phaser.Scene {
       animal.setInteractive({useHandCursor: true, pixelPerfect: true});
       animal.on('pointerdown', this.animateAnimal, this)
     });
-
+    
     this.currentIndex = 0
     this.currentAnimal = this.animals.getChildren()[this.currentIndex]
     this.updateAnimalDisplay(this.currentAnimal)
@@ -60,14 +60,14 @@ class GameScene extends Phaser.Scene {
          scene.currentIndex = 3
       }
       newAnimal = scene.animals.getChildren()[scene.currentIndex]
-      endX = 640 + this.scale.width/2
+      endX = 0
     } else {
       scene.currentIndex--
       if (scene.currentIndex < 0) {
          scene.currentIndex = 0
       }
       newAnimal = scene.animals.getChildren()[scene.currentIndex]
-      endX = -scene.scale.width/2
+      endX = game.scale.width
     }
 
     scene.currentAnimal.x = endX
