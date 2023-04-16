@@ -12,32 +12,32 @@ class GameScene extends Phaser.Scene {
 //      <----- ANIMAL GROUP ----->
       this.animals = this.add.group()
       var animal;
-      var animalData = [
-         { key: 'chicken', text: 'CHICKEN' },
-         { key: 'horse', text: 'HORSE' },
-         { key: 'pig', text: 'PIG' },
-         { key: 'sheep', text: 'SHEEP' }
+      this.animalData = [
+        { key: 'chicken',   text: 'CHICKEN' },
+        { key: 'horse',     text: 'HORSE'   },
+        { key: 'pig',       text: 'PIG'     },
+        { key: 'sheep',     text: 'SHEEP'   }
     ];
 
-      animalData.forEach(object => {
-         animal = this.animals.create(1000, this.scale.height / 2, object.key);
-         animal.customParams = { text: object.text }
-
-         animal.setInteractive({ useHandCursor: true, pixelPerfect: true });
-         animal.on('pointerdown', this.animateAnimal, this)
+      this.animalData.forEach(object => {
+        animal = this.animals.create(1000, this.scale.height / 2, object.key);
+        animal.customParams = { text: object.text, sfx: this.sound.add(object.key + '-sfx')}
+        animal.setInteractive({ useHandCursor: true, pixelPerfect: true });
+        animal.on('pointerdown', this.animateAnimal, this)
       });
 
-//  <----- CURRENT ANIMAL DISPLAY ----->
+//  <------ CURRENT ANIMAL DISPLAY ------>
       this.currentIndex = 0
       this.currentAnimal = this.animals.getChildren()[this.currentIndex]
       this.currentAnimal.x = game.scale.width/2
-      
+      this.animalA
+
 //        <----- RIGHT ARROW ----->
       this.leftArrow = this.add.sprite(60, this.scale.height / 2, 'arrow');
       this.leftArrow.setScale(-1, 1)
       this.leftArrow.customParams = { direction: -1 };
 
-// <----- LEFT ARROW INTERACTIVE ----->
+// <------ LEFT ARROW INTERACTIVE ------>
       this.leftArrow.setInteractive({ pixelPerfect: true, useHandCursor: true });
       this.leftArrow.on('pointerdown', this.switchAnimal);
 
@@ -45,15 +45,23 @@ class GameScene extends Phaser.Scene {
       this.rightArrow = this.add.sprite(580, this.scale.height / 2, 'arrow');
       this.rightArrow.customParams = { direction: 1 };
 
-// <----- RIGHT ARROW INTERACTIVE ----->
+// <------ RIGHT ARROW INTERACTIVE ------>
       this.rightArrow.setInteractive({ pixelPerfect: true, useHandCursor: true });
       this.rightArrow.on('pointerdown', this.switchAnimal)
    }
 
-   animateAnimal(event, animal) {
+// <----- ANIMAL ANIMATION AND SOUND ----->
+   animateAnimal(event) {
       console.log('animating animal');
-   }
-
+      var animal = this.animals.getChildren()[this.currentIndex]
+      animal.play(animal.texture.key + '_anim', true, 0)
+      animal.customParams.sfx.play()
+      animal.on('animationcomplete', function(){
+        animal.anims.restart()
+        animal.anims.pause()
+      });
+}
+//  <------ SWITCHING ANIMALS ------->
    switchAnimal(event) {
       var scene = this.scene;
       var newAnimal, endX;
@@ -92,12 +100,12 @@ class GameScene extends Phaser.Scene {
             duration: 500,
             ease: 'linear',
             onComplete: function(){
-               scene.isMoving = false
+              scene.isMoving = false
             }
          });
       } else if(this.customParams.direction < 0 && scene.currentIndex >= 0){
          
-//  <--- LEFT ARROW TWEENS AND PREV ---->
+//  <---- LEFT ARROW TWEENS AND PREV ---->
 
          var index = scene.currentIndex
          --scene.currentIndex
@@ -113,7 +121,7 @@ class GameScene extends Phaser.Scene {
             duration: 500,
             ease: 'linear',
             onComplete: function() {
-               scene.isMoving = false
+              scene.isMoving = false
             }
          });
          
@@ -123,7 +131,7 @@ class GameScene extends Phaser.Scene {
             duration: 500,
             ease: 'linear',
             onComplete: function() {
-               scene.isMoving = false
+              scene.isMoving = false
             }
          });
       }
