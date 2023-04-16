@@ -7,11 +7,11 @@ class Loader extends Phaser.Scene{
     this.load.image("background", "assets/images/background.png");
     this.load.image("arrow", "assets/images/arrow.png");
     this.load.spritesheet('chicken', 'assets/images/chicken_spritesheet.png',{
-      frameWidth: 130, frameHeight: 200});
+      frameWidth: 131, frameHeight: 200});
     this.load.spritesheet("horse", 'assets/images/horse_spritesheet.png',  {
       frameWidth: 212, frameHeight: 200});
     this.load.spritesheet("pig", 'assets/images/pig_spritesheet.png',  {
-      frameWidth: 295, frameHeight: 200});
+      frameWidth: 297, frameHeight: 200});
     this.load.spritesheet("sheep", 'assets/images/sheep_spritesheet.png',  {
       frameWidth: 244, frameHeight: 200});
 
