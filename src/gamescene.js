@@ -30,14 +30,17 @@ class GameScene extends Phaser.Scene {
       this.currentIndex = 0
       this.currentAnimal = this.animals.getChildren()[this.currentIndex]
       this.currentAnimal.x = game.scale.width/2
-      this.animalA
 
+//  <------ ANIMAL TEXT DISPLAY ------>
+      this.animalText = this.add.text(game.scale.width/2, game.scale.height/2 + 150, 'CHICKEN');
+      this.animalText.setStyle({ fontFamily: 'Arial', fontSize: 30, color: '#000000', fontWeight: 'bold'});
+      this.animalText.setOrigin(0.5)
 //        <----- RIGHT ARROW ----->
       this.leftArrow = this.add.sprite(60, this.scale.height / 2, 'arrow');
       this.leftArrow.setScale(-1, 1)
       this.leftArrow.customParams = { direction: -1 };
 
-// <------ LEFT ARROW INTERACTIVE ------>
+//  <------ LEFT ARROW INTERACTIVE ------>
       this.leftArrow.setInteractive({ pixelPerfect: true, useHandCursor: true });
       this.leftArrow.on('pointerdown', this.switchAnimal);
 
@@ -69,8 +72,12 @@ class GameScene extends Phaser.Scene {
       if(scene.isMoving){return;}
       scene.isMoving = true
       
-      // TWEENS and POSITION
-      
+      var sfx = scene.sound.add('button-sfx')
+      sfx.play()
+  //  <----- MODIFY TEXT ----->
+      scene.animalText.visible = false
+  
+  //  <----- TWEENS AND POSITIONS ----->
       if (this.customParams.direction > 0 && scene.currentIndex <= 3) {
          
 //  <--- RIGHT ARROW TWEENS AND PREV ---->
@@ -80,6 +87,7 @@ class GameScene extends Phaser.Scene {
          if (scene.currentIndex > 3 && this.customParams.direction > 0) {
             scene.isMoving = false
             scene.currentIndex = 3
+            scene.animalText.visible = TextTrackCueList 
             return;
          }
          
@@ -90,6 +98,8 @@ class GameScene extends Phaser.Scene {
             ease: 'linear',
             onComplete: function(){
                scene.isMoving = false
+               scene.animalText.setText(scene.animals.getChildren()[scene.currentIndex].customParams.text)
+               scene.animalText.visible = true
             }
          });
          
@@ -101,17 +111,20 @@ class GameScene extends Phaser.Scene {
             ease: 'linear',
             onComplete: function(){
               scene.isMoving = false
+              scene.animalText.setText(scene.animals.getChildren()[scene.currentIndex].customParams.text)
+              scene.animalText.visible = true
             }
          });
       } else if(this.customParams.direction < 0 && scene.currentIndex >= 0){
          
-//  <---- LEFT ARROW TWEENS AND PREV ---->
 
+//  <---- LEFT ARROW TWEENS AND PREV ---->
          var index = scene.currentIndex
          --scene.currentIndex
          if (scene.currentIndex < 0 && this.customParams.direction < 0) {
             scene.isMoving = false
             scene.currentIndex = 0
+            scene.animalText.visible = true
             return;
          }
          
@@ -122,6 +135,8 @@ class GameScene extends Phaser.Scene {
             ease: 'linear',
             onComplete: function() {
               scene.isMoving = false
+              scene.animalText.setText(scene.animals.getChildren()[scene.currentIndex].customParams.text)
+              scene.animalText.visible = true
             }
          });
          
@@ -132,6 +147,8 @@ class GameScene extends Phaser.Scene {
             ease: 'linear',
             onComplete: function() {
               scene.isMoving = false
+              scene.animalText.setText(scene.animals.getChildren()[scene.currentIndex].customParams.text)
+              scene.animalText.visible = true
             }
          });
       }

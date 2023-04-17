@@ -26,20 +26,12 @@ class Loader extends Phaser.Scene{
       ['assets/sfx/pig.ogg',      'assets/sfx/pig.mp3']);
     this.load.audio('sheep-sfx', 
       ['assets/sfx/sheep.ogg',    'assets/sfx/sheep.mp3']);
-    
+    this.load.audio('button-sfx', 'button.mp3') 
   }
 
   create() {
     this.background = this.add.image(0, 0, "background")
     this.background.setOrigin(0, 0)
-    
-    // TIMER 
-    this.loadingtimer = this.time.addEvent({ delay: 2000, callback: this.onFinish, callbackScope: this });
-    
-    this.timertext = this.add.text(game.scale.width/2, (game.scale.height/2) + 100).setOrigin(0.5, 0.5)
-    this.maintext = this.add.text(game.scale.width/2, (game.scale.height/2), 'Loading Assets...').setScale(2).setOrigin(0.5, 0.5)
-    this.timertext.setColor('black')
-    this.maintext.setColor('black')
     
 //  <----- LOAD ANIMATIONS ----->
     
@@ -67,18 +59,20 @@ class Loader extends Phaser.Scene{
        frameRate: 6,
        repeat: 0
     });
+    var up = this;
+    this.gameName = this.add.text(game.scale.width/2, game.scale.height/2, 'F A R M  A N I M A L S')
+    this.gameName.setOrigin(0.5)
+    this.gameName.setStyle({fontFamily: 'Arial', fontSize: 50, color: '#000000',stroke: '#000000', strokeThickness: 5,})
     
-    this.scene.start('GameScene')
-  }
-
-  update() {
-    var progress = this.loadingtimer.getProgress().toString().substr(0, 4)
-    this.timertext.setText(`Progress : ${progress}`)
-  }
-
-  onFinish() {
-//  <---- ON TIMER COMPLETE ---->
-    this.maintext.setText('Loading Complete...')
-    //this.scene.start('GameScene')
+    this.playButton = this.add.text(game.scale.width/2, game.scale.height/2 + 100, 'Play')
+    this.playButton.setOrigin(0.5)
+    this.playButton.setStyle({fontFamily: 'Arial', fontSize: 30, color: '#000000', stroke: '#000000', strokeThickness: 3})
+    
+    this.playButton.setInteractive()
+    this.playButton.on('pointerdown', function(){
+      var sfx = up.sound.add('button-sfx')
+      sfx.play()
+      up.scene.start('GameScene')
+    })
   }
 }
